@@ -1,6 +1,2 @@
-babel-plugin-transform-export-extensions    export v from 'mod';// 支持
-babel-preset-env   可以根据配置的目标运行环境（environment）自动启用需要的 babel 插件
-babel-plugin-import 可以从组件库中仅仅引入需要的模块，而不是把整个库都引入
-babel-plugin-transform-decorators-legacy 编译class和object为es5版本
 extract-text-webpack-plugin 该插件的主要是为了抽离css样式,防止将样式打包在js中引起页面样式加载错乱的现象
 webpack-dev-server 它是一个小型的node.jsExpress服务器,它使用webpack-dev-middleware中间件来为通过webpack打包生成的资源文件提供Web服务。它还有一个通过Socket.IO连接着webpack-dev-server服务器的小型运行时程序。webpack-dev-server发送关于编译状态的消息到客户端，客户端根据消息作出响应。

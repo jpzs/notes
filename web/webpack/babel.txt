@@ -1,0 +1,15 @@
+babel-loader
+babel-core
+babel-preset-es2015
+babel-preset-react
+.babelrc
+{
+"presets":["es2015","react"],
+"plugins":[]
+}
+
+babel-plugin-syntax-export-extensions 	//支持export v from 'mod';需配置.babelrc文件plugins:["syntax-export-extensions"]
+babel-plugin-transform-export-extensions    //支持export 配置plugins:["transform-export-extensions"]
+babel-preset-env   可以根据配置的目标运行环境（environment）自动启用需要的 babel 插件
+babel-plugin-import 可以从组件库中仅仅引入需要的模块，而不是把整个库都引入
+babel-plugin-transform-decorators-legacy 编译class和object为es5版本
