@@ -1,0 +1,12 @@
+npm init 初始化,生成package.json文件
+npm install <package> 安装npm包
+npm uninstall <package> 卸载npm包
+
+package.json中scripts属性中保存命令,通过命令行npm run <key>来执行命令,如
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack-dev-server --inline"
+}
+运行 npm run build 来执行命令 webpack-dev-server --inline
+安装cnpm 淘宝NPM镜像,可提升下载速度,使用cnpm的命令替代npm,如cnpm install
+npm install -g cnpm --registry=http://r.cnpmjs.org
