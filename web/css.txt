@@ -1,0 +1,7 @@
+border-collapse:collapse  table合并边框
+white-space: 默认值normal 合并空白符，换行回车转空格;nowrap 强制在同一行内显示所有文本,合并文本间的多余空白，直到文本结束或者遭遇br对象。
+table 不支持background-image,只能给td设置背景图。
+letter-spacing 添加字母之间的空白,故最后一个字将被排除在外,允许为负值,可继承,初始值normal等于绝对长度0,可突出强调效果.
+word-spacing 添加每个单词之间的空白,对中文无效,可继承,初始值normal等于绝对长度0.
+text-transform 大小写转换 ...
+direction 可继承,决定文本流方向从左到右或从右到左

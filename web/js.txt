@@ -1,0 +1,60 @@
+dom事件流:
+同时支持两种事件模型：捕获型事件和冒泡型事件。DOM事件模型最独特的性质是，文本节点也触发事件(在IE中不会)。当给dom节点绑定事件以后，浏览器触发顺序，首先是事件捕获阶段,从deocment根节点一直向下，通过子节点，直到到达触发事件的目标节点为止，然后是冒泡阶段，从触发事件的目标节点开始，一路向上通过父节点，直到document根节点为止，沿途会触发经过节点对应的事件，捕获阶段触发捕获型事件，冒泡阶段触发冒泡型事件(如果存在的话)。绑定事件时分捕获阶段触发和冒泡阶段触发两种。捕获阶段早于冒泡阶段，即捕获型事件早于冒泡型事件执行，但是当两种类型事件绑定在同一个节点上时，按照绑定时的顺序，先绑定的先执行。为了避免事件流误触发别的dom节点绑定的事件，需要阻止事件流继续执行。在chrome和firefox中可以使用stopPropagation方法。e.stopPropagation();当中e表示事件对象event。
+if(e && e.stopPropagation){e.stopPropagation(); }else{e.cancelBubble=true;};当浏览器存在stopPropagation方法时就调用stopPropagation方法，否则就使用后面的方法。e.cancelBubble=true对ie有效，
+不过支持到ie哪个版本未经测试。
+http://nuysoft.iteye.com/blog/1190189
+
+event.stopPropagation()用法介绍
+该方法将停止事件的传播，阻止它被分派到其他 Document 节点。在事件传播的任何阶段都可以调用它。注意，该方法不能阻止同一个节点上的其他事件句柄被调用。
+
+event.preventDefault()用法介绍
+该方法将通知 Web 浏览器不要执行与事件关联的默认动作（如果存在这样的动作）。例如，如果 type 属性是 "submit"，在事件传播的任意阶段可以调用任意的事件句柄，通过调用该方法，可以阻止提交表单。注意，如果 Event 对象的 cancelable 属性是 fasle，那么就没有默认动作，或者不能阻止默认动作。无论哪种情况，调用该方法都没有作用。
+
+addeventlistener
+element.addEventListener(event,function,useCapture)
+其中element是要绑定函数的对象。
+event是事件名称，要注意的是"onclick"要改为"click","onblur"要改为"blur",也就是说事件名不要带"on"。
+function当然就是绑定的函数了，记住不要跟括号。
+最后一个参数useCapture是个布尔值，默认为false,表示事件在冒泡阶段触发,true表示事件在捕获阶段触发。
+该方法兼容ie9.0以上.
+
+attachevent
+element.attachEvent (event,function)
+event是事件名称，名字带'on'。function同上，支持ie和Opera。另外 attachEvent 和 addEventListener 不仅仅适用于 window 对象，其他的一些文档对象也支持该方法。
+注意：在低版本ie上attachEvent 所指派的多个过程的执行顺序是随机的，所以这几个过程之间不要有顺序依赖----这点未测试过
+
+hasownproperty
+new Object().hasOwnProperty('name');是用来判断一个对象是否有你给出名称的属性或对象。不过需要注意的是，此方法无法检查该对象的原型链中是否具有该属性，该属性必须是对象本身的一个成员，
+new Object()表示某一个对象，name表示检测的字段名称。
+
+isprototypeof
+isPrototypeOf。object1.isPrototypeOf(object2)。其中object1为某一个对象的原型。object2为另一个对象，将要检查object2原型链。如果object2的原型链中包含object1，那么JavaScript中isPrototypeOf函数方法返回 true。例子： var a = new Rectangle();function Rectangle() {};var result=Rectangle.prototype.isPrototypeOf(a);//result=true
+
+call
+function.call(thisObj,arg1,arg2,argN)。function表示某个方法，第一个参数是thisObj,用这个对象的上下文来替换function内部的上下文执行环境，即将thisObj中的this对象赋值到function中的
+this对象，如果没有提供thisObj对象，那么thisObj默认为window。从第二个参数arg1开始，分别表示传入function的参数。
+
+apply
+function.apply(thisObj,args)。function同上，thisObj同上，args表示数组，它将作为参数传给function（args-->arguments）。
+
+bind
+function a(){};var b=a.bind(thisObj,arg1,arg2,argN);b();bind方法类似call,但是调用bind并不直接执行函数,而是返回改变上下文后的函数,ie6,7,8不支持。
+
+splice
+var result=arrayObject.splice(index,howmany,element1,.....,elementX)。index：数组元素的下标，规定从何处开始添加/删除元素。howmany：规定应该删除多少元素。必须是数字， 但可以是"0"即字符串的0。elementX:向数组添加的元素，可以是若干个，以逗号分隔。返回值result:如果从arrayObject中删除了元素，则返回的是由被删除的元素组成的数组。
+
+slice
+var result=stringObject.slice(start,end)。start要抽取的片断的起始下标，如果是负数，则该参数规定的是从字符串的尾部开始算起的位置。也就是说，-1 指字符串的最后一个字符，-2 指倒数第二个字符。
+end 紧接着要抽取的片段的结尾的下标。若未指定此参数，则要提取的子串包括 start 到原字符串结尾的字符串。如果该参数是负数，那么它规定的是从字符串的尾部开始算起的位置。
+返回值result:一个新的字符串。包括字符串 stringObject 从 start 开始（包括 start）到 end 结束（不包括 end）为止的所有字符。该方法不会改变原对象。String.slice()与Array.slice()相同。
+
+typeof 检测变量类型,typeof(variable),可检测类型有:boolean,string,number,object,function,undefined.
+
+charAt string.charAt(index) 返回字符串指定位置的字符,string表示字符串,index为数字，若不为数字则转化为数字,若index索引位置不存在或index为负数,则返回'';
+
+sort arrayObject.sort(sortby) arrayObject为数组对象,sortby:可选,规定排序顺序.必须是函数。比较函数应该具有两个参数 a 和 b,当返回值大于0,调换参数在数组中的位置,否则不改变位置.sort函数在safari浏览器中存在问题，传入函数参数时不会正常排序。
+
+document.getComputedStyle(dom,伪类); 获取元素所有样式;dom.currentStyle;ie6-8获取所有样式
+document.activeElement  获得当前焦点所在对象
+
+正则表达式 \1 表示匹配前面()捕获的内容
