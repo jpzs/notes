@@ -1,0 +1,65 @@
+loaders之css处理
+module: {
+  loaders: [
+    {test: /\.css$/, loader: "style!css?sourceMap!postcss"},
+    {test: /\.less$/, loader: "style!css!less|postcss"},
+    {test: /\.scss$/, loader: "style!css!sass|postcss"}
+  ]
+}
+css-loader 可以实现在js文件中通过require的方式来引入css
+style-loader 在html中以style的方式嵌入css
+sass-loader scss编译器
+less-loader less编译器
+postcss-loader 给css添加浏览器前缀,但是需要配置postcss.config.js，内容为
+module.exports = {
+  plugins: [
+    require('autoprefixer')
+  ]
+}
+
+loaders之js处理
+module: {
+	loaders: [
+	  {test: /\.js[x]?$/, loader: "babel", exclude: /node_modules/}
+	]
+}
+babel配置见babel.txt
+
+loaders之图片处理
+npm install url-loadr --save-dev
+module: {
+  loaders: [
+    {test: /\.(jpg|png)$/, loader: "url?limit=8192"},
+  ]
+}
+
+loaders之文件处理
+npm install file-loader --save-dev
+module: {
+  loaders: [
+    {
+      test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+      loader: 'file'
+    }
+  ]
+}
+
+loaders之json处理
+npm install json-loader --save-dev
+module: {
+  loaders: [
+    {test: /\.json$/,loader: 'json'},
+  ]
+}
+
+loaders之html处理
+npm install raw-loader --save-dev
+module: {
+  loaders: [
+    { test: /\.html$/,loader: 'raw'},
+  ]
+}
+
+插件概述：
+extract-text-webpack-plugin 该插件的主要是为了抽离css样式,防止将样式打包在js中引起页面样式加载错乱的现象
+webpack-dev-server 它是一个小型的node.jsExpress服务器,它使用webpack-dev-middleware中间件来为通过webpack打包生成的资源文件提供Web服务。它还有一个通过Socket.IO连接着webpack-dev-server服务器的小型运行时程序。webpack-dev-server发送关于编译状态的消息到客户端，客户端根据消息作出响应。

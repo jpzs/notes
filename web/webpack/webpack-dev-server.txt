@@ -1,4 +1,5 @@
 webpack-dev-server有两种模式支持自动刷新——iframe模式和inline模式
+
 在iframe模式下：页面是嵌套在一个iframe下的，在代码发生改动的时候，这个iframe会重新加载；在inline模式下：一个小型的webpack-dev-server客户端会作为入口文件打包，这个客户端会在后端代码改变的时候刷新页面。
 iframe模式
 在html文件中添加对打包后js的引用
@@ -10,7 +11,10 @@ output:{
 则src="/assets/index.js"
 cmd命令运行 webpack-dev-server
 访问 http://localhost:8080/webpack-dev-server/ +文件路径(从项目根目录出发)
-使用inline模式有两种方式：命令行方式和Node.js API.这里不介绍Node.js API方式.
+
+
+使用inline模式有两种方式：命令行方式和Node.js API.
+
 命令行方式启动
 在webpack.config.js中添加
 devServer:{inline:true}
@@ -20,7 +24,7 @@ output:{
         filename:'index.js',
         publicPath:'/assets/',
 }
-则src="assets/index.js"
+则src="/assets/index.js"
 通过cmd命令 webpack-dev-server --inline 启动,需要在全局环境下安装webpack-dev-server,npm install webpack-dev-server -g,
 也可以在package.json中的scripts里面添加命令,如
 "scripts": {
@@ -32,5 +36,31 @@ webpack-dev-server默认会以当前目录为基本目录,除非你制定它,如
 webpack-dev-server --content-base build/
 注意：使用webpack-dev-server命令行的时候，会自动查找名为webpack.config.js的配置文件。如果你的配置文件名称不是webpack.config.js，需要在命令行中指明配置文件。例如，我的配置文件是webpack.config.dev.js：webpack-dev-server --inline --config webpack.config.dev.js。
 
-webpac-dev-server支持Hot Module Replacement，即模块热替换，在前端代码变动的时候无需整个刷新页面，只把变化的部分替换掉。使用HMR功能也有两种方式：命令行方式和Node.js API。这里不介绍Node.js API方式.
+Node.js API
+需要手动把 webpack-dev-server/client?http://localhost:8080 加到webpack配置的entry入口点中,nodejs代码参考如下
+var config = require("./webpack.config.js");
+    var webpack = require('webpack');
+    var WebpackDevServer = require('webpack-dev-server');
+//entry={index:['./src/index.js']}
+config.entry.index.unshift("webpack-dev-server/client?http://localhost:8080/");
+
+var compiler = webpack(config);
+var server = new WebpackDevServer(compiler, {
+	//contentBase设置根目录
+    contentBase:'build/',
+	//publicPath设置访问路径，访问路径src=publicPath+filename,注意,经测试publicPath必须在这声明，在config中声明不起作用
+    publicPath: "/assets/"
+});
+server.listen(8080);
+运行该nodejs文件，访问根目录为http://localhost:8080/ ;在html中添加对js的引用src如上
+
+
+webpac-dev-server支持Hot Module Replacement，即模块热替换，在前端代码变动的时候无需整个刷新页面，只把变化的部分替换掉。使用HMR功能也有两种方式：命令行方式和Node.js API。
 命令行方式同样比较简单，只需加入--line --hot选项。--hot这个选项干了一件事情，它把webpack/hot/dev-server入口点加入到了webpack配置文件中。这时访问浏览器，你会看见控制台的log信息：
+[HMR] Waiting for update signal from WDS...
+[WDS] Hot Module Replacement enabled.
+
+Node.js API
+把'webpack/hot/dev-server'加入到webpack配置文件的entry项；
+把new webpack.HotModuleReplacementPlugin()加入到webpack配置文件的plugins项；
+把hot:true加入到webpack-dev-server的配置项里面。
