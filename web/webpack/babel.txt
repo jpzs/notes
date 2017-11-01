@@ -10,10 +10,19 @@ babel-core
 babel-preset-es2015
 babel-preset-react
 
-babel-plugin-transform-export-extensions    //支持export规则 配置plugins:["transform-export-extensions"]
-babel-plugin-syntax-export-extensions 	//支持export v from 'mod';需配置.babelrc文件plugins:["syntax-export-extensions"]
+babel-plugin-transform-export-extensions    //支持export规则 配置.babelrc文件plugins:["transform-export-extensions"]
+babel-plugin-syntax-export-extensions 	//支持export v from 'mod';需配置plugins
 babel-preset-env   可以根据配置的目标运行环境（environment）自动启用需要的 babel 插件
 babel-plugin-import 可以从组件库中仅仅引入需要的模块，而不是把整个库都引入
 babel-plugin-transform-decorators-legacy 编译class和object为es5版本
+
+babel-plugin-transform-async-to-generator	需配置plugins  支持ES7中的async和await
+babel-plugin-transform-exponentiation-operator   需配置plugins,可以通过**这个符号来进行幂操作，想当于Math.pow(a,b)
+babel-preset-stage-3 配置presets: ["stage-3"],支持transform-async-to-generator transform-exponentiation-operator
+
+babel-plugin-transform-object-rest-spread  编译es7的对象展开语法,展开运算符 (...),需配置plugins
+babel-plugin-syntax-trailing-function-commas 允许函数的尾部参数带逗号function a(b,c,){}	需配置plugins
+babel-preset-stage-2 配置presets,支持stage-3和syntax-trailing-function-commas transform-object-rest-spread
+
 
 babel中文网 http://babeljs.cn/

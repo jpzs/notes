@@ -20,6 +20,7 @@ registry网址的模块名后面，还可以跟上版本号或者标签，用来
 返回的 JSON 对象里面，有一个dist.tarball属性，是该版本压缩包的网址。
 
 缓存目录
+npm install或npm update命令，从 registry 下载压缩包之后，都存放在本地的缓存目录。
 在 Linux 或 Mac 默认是用户主目录下的.npm目录，在 Windows 默认是%AppData%/npm-cache。通过配置命令，可以查看这个目录的具体位置
 $ npm config get cache
 $HOME/.npm

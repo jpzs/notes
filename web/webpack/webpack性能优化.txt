@@ -1,5 +1,5 @@
 一.合理配置 CommonsChunkPlugin
-
+CommonsChunkPlugin对于单入口没有意义
 1、传入字符串参数，由chunkplugin自动计算提取
 new webpack.optimize.CommonsChunkPlugin('common.js')
 这种做法默认会把所有入口节点的公共代码提取出来, 生成一个common.js
@@ -29,6 +29,7 @@ new webpack.optimize.CommonsChunkPlugin({
     minChunks: Infinity
 });
 添加一个entry名叫为vendors，并把vendors设置为所需要的资源库，CommonsChunk会自动提取指定库至vendors中。
+minChunks值为Infinity的时候与值为3效果等同
 
 
 二.通过 externals 配置来提取常用库
