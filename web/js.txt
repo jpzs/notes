@@ -23,6 +23,12 @@ element.attachEvent (event,function)
 eventÊÇÊÂ¼şÃû³Æ£¬Ãû×Ö´ø'on'¡£functionÍ¬ÉÏ£¬Ö§³ÖieºÍOpera¡£ÁíÍâ attachEvent ºÍ addEventListener ²»½ö½öÊÊÓÃÓÚ window ¶ÔÏó£¬ÆäËûµÄÒ»Ğ©ÎÄµµ¶ÔÏóÒ²Ö§³Ö¸Ã·½·¨¡£
 ×¢Òâ£ºÔÚµÍ°æ±¾ieÉÏattachEvent ËùÖ¸ÅÉµÄ¶à¸ö¹ı³ÌµÄÖ´ĞĞË³ĞòÊÇËæ»úµÄ£¬ËùÒÔÕâ¼¸¸ö¹ı³ÌÖ®¼ä²»ÒªÓĞË³ĞòÒÀÀµ----ÕâµãÎ´²âÊÔ¹ı
 
+
+document.getComputedStyle(dom,Î±Àà); »ñÈ¡ÔªËØËùÓĞÑùÊ½;dom.currentStyle;ie6-8»ñÈ¡ËùÓĞÑùÊ½
+document.activeElement  »ñµÃµ±Ç°½¹µãËùÔÚ¶ÔÏó
+
+
+object
 hasownproperty
 new Object().hasOwnProperty('name');ÊÇÓÃÀ´ÅĞ¶ÏÒ»¸ö¶ÔÏóÊÇ·ñÓĞÄã¸ø³öÃû³ÆµÄÊôĞÔ»ò¶ÔÏó¡£²»¹ıĞèÒª×¢ÒâµÄÊÇ£¬´Ë·½·¨ÎŞ·¨¼ì²é¸Ã¶ÔÏóµÄÔ­ĞÍÁ´ÖĞÊÇ·ñ¾ßÓĞ¸ÃÊôĞÔ£¬¸ÃÊôĞÔ±ØĞëÊÇ¶ÔÏó±¾ÉíµÄÒ»¸ö³ÉÔ±£¬
 new Object()±íÊ¾Ä³Ò»¸ö¶ÔÏó£¬name±íÊ¾¼ì²âµÄ×Ö¶ÎÃû³Æ¡£
@@ -30,6 +36,8 @@ new Object()±íÊ¾Ä³Ò»¸ö¶ÔÏó£¬name±íÊ¾¼ì²âµÄ×Ö¶ÎÃû³Æ¡£
 isprototypeof
 isPrototypeOf¡£object1.isPrototypeOf(object2)¡£ÆäÖĞobject1ÎªÄ³Ò»¸ö¶ÔÏóµÄÔ­ĞÍ¡£object2ÎªÁíÒ»¸ö¶ÔÏó£¬½«Òª¼ì²éobject2Ô­ĞÍÁ´¡£Èç¹ûobject2µÄÔ­ĞÍÁ´ÖĞ°üº¬object1£¬ÄÇÃ´JavaScriptÖĞisPrototypeOfº¯Êı·½·¨·µ»Ø true¡£Àı×Ó£º var a = new Rectangle();function Rectangle() {};var result=Rectangle.prototype.isPrototypeOf(a);//result=true
 
+
+function
 call
 function.call(thisObj,arg1,arg2,argN)¡£function±íÊ¾Ä³¸ö·½·¨£¬µÚÒ»¸ö²ÎÊıÊÇthisObj,ÓÃÕâ¸ö¶ÔÏóµÄÉÏÏÂÎÄÀ´Ìæ»»functionÄÚ²¿µÄÉÏÏÂÎÄÖ´ĞĞ»·¾³£¬¼´½«thisObjÖĞµÄthis¶ÔÏó¸³Öµµ½functionÖĞµÄ
 this¶ÔÏó£¬Èç¹ûÃ»ÓĞÌá¹©thisObj¶ÔÏó£¬ÄÇÃ´thisObjÄ¬ÈÏÎªwindow¡£´ÓµÚ¶ş¸ö²ÎÊıarg1¿ªÊ¼£¬·Ö±ğ±íÊ¾´«ÈëfunctionµÄ²ÎÊı¡£
@@ -43,18 +51,27 @@ function a(){};var b=a.bind(thisObj,arg1,arg2,argN);b();bind·½·¨ÀàËÆcall,µ«ÊÇµ÷Ó
 splice
 var result=arrayObject.splice(index,howmany,element1,.....,elementX)¡£index£ºÊı×éÔªËØµÄÏÂ±ê£¬¹æ¶¨´ÓºÎ´¦¿ªÊ¼Ìí¼Ó/É¾³ıÔªËØ¡£howmany£º¹æ¶¨Ó¦¸ÃÉ¾³ı¶àÉÙÔªËØ¡£±ØĞëÊÇÊı×Ö£¬ µ«¿ÉÒÔÊÇ"0"¼´×Ö·û´®µÄ0¡£elementX:ÏòÊı×éÌí¼ÓµÄÔªËØ£¬¿ÉÒÔÊÇÈô¸É¸ö£¬ÒÔ¶ººÅ·Ö¸ô¡£·µ»ØÖµresult:Èç¹û´ÓarrayObjectÖĞÉ¾³ıÁËÔªËØ£¬Ôò·µ»ØµÄÊÇÓÉ±»É¾³ıµÄÔªËØ×é³ÉµÄÊı×é¡£
 
+
+array
 slice
 var result=stringObject.slice(start,end)¡£startÒª³éÈ¡µÄÆ¬¶ÏµÄÆğÊ¼ÏÂ±ê£¬Èç¹ûÊÇ¸ºÊı£¬Ôò¸Ã²ÎÊı¹æ¶¨µÄÊÇ´Ó×Ö·û´®µÄÎ²²¿¿ªÊ¼ËãÆğµÄÎ»ÖÃ¡£Ò²¾ÍÊÇËµ£¬-1 Ö¸×Ö·û´®µÄ×îºóÒ»¸ö×Ö·û£¬-2 Ö¸µ¹ÊıµÚ¶ş¸ö×Ö·û¡£
 end ½ô½Ó×ÅÒª³éÈ¡µÄÆ¬¶ÎµÄ½áÎ²µÄÏÂ±ê¡£ÈôÎ´Ö¸¶¨´Ë²ÎÊı£¬ÔòÒªÌáÈ¡µÄ×Ó´®°üÀ¨ start µ½Ô­×Ö·û´®½áÎ²µÄ×Ö·û´®¡£Èç¹û¸Ã²ÎÊıÊÇ¸ºÊı£¬ÄÇÃ´Ëü¹æ¶¨µÄÊÇ´Ó×Ö·û´®µÄÎ²²¿¿ªÊ¼ËãÆğµÄÎ»ÖÃ¡£
 ·µ»ØÖµresult:Ò»¸öĞÂµÄ×Ö·û´®¡£°üÀ¨×Ö·û´® stringObject ´Ó start ¿ªÊ¼£¨°üÀ¨ start£©µ½ end ½áÊø£¨²»°üÀ¨ end£©ÎªÖ¹µÄËùÓĞ×Ö·û¡£¸Ã·½·¨²»»á¸Ä±äÔ­¶ÔÏó¡£String.slice()ÓëArray.slice()ÏàÍ¬¡£
 
-typeof ¼ì²â±äÁ¿ÀàĞÍ,typeof(variable),¿É¼ì²âÀàĞÍÓĞ:boolean,string,number,object,function,undefined.
-
-charAt string.charAt(index) ·µ»Ø×Ö·û´®Ö¸¶¨Î»ÖÃµÄ×Ö·û,string±íÊ¾×Ö·û´®,indexÎªÊı×Ö£¬Èô²»ÎªÊı×ÖÔò×ª»¯ÎªÊı×Ö,ÈôindexË÷ÒıÎ»ÖÃ²»´æÔÚ»òindexÎª¸ºÊı,Ôò·µ»Ø'';
-
 sort arrayObject.sort(sortby) arrayObjectÎªÊı×é¶ÔÏó,sortby:¿ÉÑ¡,¹æ¶¨ÅÅĞòË³Ğò.±ØĞëÊÇº¯Êı¡£±È½Ïº¯ÊıÓ¦¸Ã¾ßÓĞÁ½¸ö²ÎÊı a ºÍ b,µ±·µ»ØÖµ´óÓÚ0,µ÷»»²ÎÊıÔÚÊı×éÖĞµÄÎ»ÖÃ,·ñÔò²»¸Ä±äÎ»ÖÃ.sortº¯ÊıÔÚsafariä¯ÀÀÆ÷ÖĞ´æÔÚÎÊÌâ£¬´«Èëº¯Êı²ÎÊıÊ±²»»áÕı³£ÅÅĞò¡£
 
-document.getComputedStyle(dom,Î±Àà); »ñÈ¡ÔªËØËùÓĞÑùÊ½;dom.currentStyle;ie6-8»ñÈ¡ËùÓĞÑùÊ½
-document.activeElement  »ñµÃµ±Ç°½¹µãËùÔÚ¶ÔÏó
 
+
+string
+charAt string.charAt(index) ·µ»Ø×Ö·û´®Ö¸¶¨Î»ÖÃµÄ×Ö·û,string±íÊ¾×Ö·û´®,indexÎªÊı×Ö£¬Èô²»ÎªÊı×ÖÔò×ª»¯ÎªÊı×Ö,ÈôindexË÷ÒıÎ»ÖÃ²»´æÔÚ»òindexÎª¸ºÊı,Ôò·µ»Ø'';
+
+
+ÅĞ¶Ïº¯ÊıÊÇ·ñÎªÏµÍ³×Ô´øº¯ÊıµÄ·½·¨,ÈçPromise.toString().slice(-17)==='{ [native code] }'
+
+typeof ¼ì²â±äÁ¿ÀàĞÍ,typeof(variable),¿É¼ì²âÀàĞÍÓĞ:boolean,string,number,object,function,undefined.
+instanceof ¼ì²âÊı×é [] instanceof Array,µ«ÊÇ¿çiframe¼ì²â²»ĞĞ
+Object.prototype.toString.call(variable) ¿É¼ì²âÈ«ÀàĞÍ
+
+
+ÕıÔò±í´ïÊ½
 ÕıÔò±í´ïÊ½ \1 ±íÊ¾Æ¥ÅäÇ°Ãæ()²¶»ñµÄÄÚÈİ
