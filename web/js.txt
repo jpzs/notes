@@ -64,6 +64,8 @@ sort arrayObject.sort(sortby) arrayObjectÎªÊı×é¶ÔÏó,sortby:¿ÉÑ¡,¹æ¶¨ÅÅĞòË³Ğò.±ØĞ
 string
 charAt string.charAt(index) ·µ»Ø×Ö·û´®Ö¸¶¨Î»ÖÃµÄ×Ö·û,string±íÊ¾×Ö·û´®,indexÎªÊı×Ö£¬Èô²»ÎªÊı×ÖÔò×ª»¯ÎªÊı×Ö,ÈôindexË÷ÒıÎ»ÖÃ²»´æÔÚ»òindexÎª¸ºÊı,Ôò·µ»Ø'';
 
+__proto__ Óë prototype ²î±ğ
+Ã¿¸ö¶ÔÏó¶¼ÓĞÒş²ØµÄÔ­ĞÍÊôĞÔ__proto__,¿ÉÒÔÍ¨¹ıObject.getPrototypeOf »ñÈ¡,__proto__Ö¸Ïò´´½¨¸Ã¶ÔÏóµÄº¯ÊıµÄÔ­ĞÍprototype,prototype´ú±íÏÔÊ¾Ô­ĞÍ,Ö»ÓĞfunction¶ÔÏó²ÅÓĞ
 
 ÅĞ¶Ïº¯ÊıÊÇ·ñÎªÏµÍ³×Ô´øº¯ÊıµÄ·½·¨,ÈçPromise.toString().slice(-17)==='{ [native code] }'
 
