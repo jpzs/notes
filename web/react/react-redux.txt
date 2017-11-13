@@ -1,0 +1,22 @@
+"name": "react-redux",
+"version": "5.0.6",
+
+import { Provider, createProvider, connectAdvanced, connect } from 'react-redux'
+
+原理:利用了react中 context 属性可跨级传递的特性;
+
+Provider属性为一个类,Provider类只允许有一个子元素,来展示我们自己创建的类,props必须赋值store属性
+如<Provider store={store}>
+    <App />
+  </Provider>
+Provider 类提供给App子类context属性,值为{ [storeKey]: this[storeKey], [subscriptionKey]: null },storeKey的值默认为'store',subscriptionKey的值默认为{storeKey+'Subscription'}.
+
+
+createProvider 函数可修改 Provider 类默认设置,生成并返回Provider类,createProvider(storeKey,subscriptionKey),可修改storeKey和subscriptionKey
+
+
+connectAdvanced,运行 connectAdvanced 函数返回 wrapWithConnect 函数,运行 wrapWithConnect 函数返回Connect类. Connect类接收{[storeKey]: storeShape,[subscriptionKey]: subscriptionShape},
+storeKey 默认值为 'store',subscriptionKey 默认值为 'storeSubscription'
+
+
+connect,运行 connect 函数,会调用 connectAdvanced 函数并提供一些默认参数,
