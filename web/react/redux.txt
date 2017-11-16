@@ -1,4 +1,7 @@
+redux 保存了state,并且只能通过dispatch去改变;
+
 react-redux
 redux-thunk
 redux-logger
-
+redux-undo  让你的reducers变得可以重做
+exceed
