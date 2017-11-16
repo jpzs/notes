@@ -9,12 +9,14 @@ Provider属性为一个类,Provider类只允许有一个子元素,来展示我�
 如<Provider store={store}>
     <App/>
   </Provider>
-Provider 类创建了可供子类继承的context属性,值为{ [storeKey]: this[storeKey], [subscriptionKey]: null },storeKey的值默认为'store',subscriptionKey的值默认为 storeKey+'Subscription';
+Provider 类创建了可供子类继承的context属性,使store可以被继承下去,
+context值为{ [storeKey]: this[storeKey], [subscriptionKey]: null },storeKey的值默认为'store',subscriptionKey的值默认为 storeKey+'Subscription';
 
 
+connect 作用是计算出props传递给子组件;
 connect(mapStateToProps,mapDispatchToProps,mergeProps);
 
-mapStateToProps 是一个函数,作用是建立一个从（外部的）state对象到（UI 组件的）props对象的映射关系,
+mapStateToProps 是一个函数,作用是建立一个从（通过继承到的store,调用store.getState()取得）state对象到（如上面的代码中传递给App组件的props）props对象的映射关系,
 mapStateToProps(state,ownProps);若返回值为函数,则该函数会被调用一次参数与mapStateToProps一致,为(state,ownProps),最后返回对象被合并进props;
 mapStateToProps会订阅 Store，每当state更新的时候，就会自动执行，重新计算 UI 组件的参数，从而触发 UI 组件的重新渲染。
 使用ownProps参数后，如果容器组件的参数发生变化，也会引发 UI 组件重新渲染。 
@@ -39,7 +41,7 @@ const getVisibleTodos = (todos, filter) => {
 
 
 
-mapDispatchToProps 用来建立 UI 组件的参数到store.dispatch方法的映射
+mapDispatchToProps 用来封装dispatch(action)的操作,组件可通过props中对应的键获取到封装后的函数;
 mapDispatchToProps 可以是一个函数或者对象,若为函数,则返回值是一个对象,该对象的每个键值对都是一个映射,如
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onClick: () => {
