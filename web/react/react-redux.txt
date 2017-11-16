@@ -1,22 +1,63 @@
 "name": "react-redux",
 "version": "5.0.6",
 
-import { Provider, createProvider, connectAdvanced, connect } from 'react-redux'
+import { Provider, connect } from 'react-redux'
 
 原理:利用了react中 context 属性可跨级传递的特性;
 
 Provider属性为一个类,Provider类只允许有一个子元素,来展示我们自己创建的类,props必须赋值store属性
 如<Provider store={store}>
-    <App />
+    <App/>
   </Provider>
-Provider 类提供给App子类context属性,值为{ [storeKey]: this[storeKey], [subscriptionKey]: null },storeKey的值默认为'store',subscriptionKey的值默认为{storeKey+'Subscription'}.
+Provider 类创建了可供子类继承的context属性,值为{ [storeKey]: this[storeKey], [subscriptionKey]: null },storeKey的值默认为'store',subscriptionKey的值默认为 storeKey+'Subscription';
 
 
-createProvider 函数可修改 Provider 类默认设置,生成并返回Provider类,createProvider(storeKey,subscriptionKey),可修改storeKey和subscriptionKey
+connect(mapStateToProps,mapDispatchToProps,mergeProps);
+
+mapStateToProps 是一个函数,作用是建立一个从（外部的）state对象到（UI 组件的）props对象的映射关系,
+mapStateToProps(state,ownProps);若返回值为函数,则该函数会被调用一次参数与mapStateToProps一致,为(state,ownProps),最后返回对象被合并进props;
+mapStateToProps会订阅 Store，每当state更新的时候，就会自动执行，重新计算 UI 组件的参数，从而触发 UI 组件的重新渲染。
+使用ownProps参数后，如果容器组件的参数发生变化，也会引发 UI 组件重新渲染。 
+connect方法可以省略mapStateToProps参数，那样的话，UI 组件就不会订阅Store，就是说 Store 的更新不会引起 UI 组件的更新。
+const mapStateToProps = (state) => {
+  return {
+    todos: getVisibleTodos(state.todos, state.visibilityFilter)
+  }
+}
+const getVisibleTodos = (todos, filter) => {
+  switch (filter) {
+    case 'SHOW_ALL':
+      return todos
+    case 'SHOW_COMPLETED':
+      return todos.filter(t => t.completed)
+    case 'SHOW_ACTIVE':
+      return todos.filter(t => !t.completed)
+    default:
+      throw new Error('Unknown filter: ' + filter)
+  }
+}
 
 
-connectAdvanced,运行 connectAdvanced 函数返回 wrapWithConnect 函数,运行 wrapWithConnect 函数返回Connect类. Connect类接收{[storeKey]: storeShape,[subscriptionKey]: subscriptionShape},
-storeKey 默认值为 'store',subscriptionKey 默认值为 'storeSubscription'
+
+mapDispatchToProps 用来建立 UI 组件的参数到store.dispatch方法的映射
+mapDispatchToProps 可以是一个函数或者对象,若为函数,则返回值是一个对象,该对象的每个键值对都是一个映射,如
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onClick: () => {
+    dispatch(setVisibilityFilter(ownProps.filter))
+  }
+})
+
+若 mapDispatchToProps 为对象,则对象的键值为函数,会被当作 Action creator ，返回的 Action 会由 Redux 自动发出,如
+const mapDispatchToProps = {
+  onClick: (filter) => {
+    type: 'SET_VISIBILITY_FILTER',
+    filter: filter
+  };
+}
+最后返回的对象将会被合并进props;
 
 
-connect,运行 connect 函数,会调用 connectAdvanced 函数并提供一些默认参数,
+mergeProps 该函数作用为合并 mapStateToProps 返回值和  mapDispatchToProps 返回值还有 ownProps 三个对象为props,若 mergeProps 为空的情况下则按照默认方式合并赋值给props;
+若 mergeProps 为函数,则调用 mergeProps(stateProps, dispatchProps, ownProps),三个参数分别是 mapStateToProps 返回对象,mapDispatchToProps 返回对象和 ownProps对象,
+该函数返回值为新的props对象,react-redux会对新旧props对象进行判断:两个对象全等,或者新props对象中的属性值和老props对象中的属性值全等.才会将赋值props为新的props对象;
+
