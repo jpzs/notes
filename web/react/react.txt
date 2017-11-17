@@ -1,3 +1,5 @@
+context:
+
 react中 context 属性可跨级传递;
 通过对 contextTypes 检测的结果,选择性继承父类的context
 react-dom部分源码

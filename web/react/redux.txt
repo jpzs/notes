@@ -1,4 +1,42 @@
-redux 保存了state,并且只能通过dispatch去改变;
+redux  3.7.2
+import {createStore,bindActionCreators,combineReducers} from 'redux';
+
+createStore(reducer, preloadedState, enhancer)
+reducer 用来接收 action 进行处理并返回数据,preloadedState 是预设状态,enhancer 可以包装 createStore,参考:enhancer(createStore)(reducer, preloadedState),一般情况下仅需求 reducer;
+
+createStore 函数返回对象包括{dispatch,subscribe,getState,replaceReducer};
+createStore 函数执行过程中创建了 currentState 对象来保存公共状态,nextListeners 数组来保存所有监听的函数;
+只能通过 dispatch(action) 来改变状态,currentState = reducer(currentState, action),在状态赋值之后会遍历执行 nextListeners 中的函数不传参数;
+subscribe(listener) 用来添加监听函数(相当于订阅),将 listener 添加进 nextListeners 中,返回一个移除 nextListeners 中的 listener 的函数;
+getState() 返回 currentState;
+replaceReducer(nextReducer) 用 nextReducer 函数来替换 reducer 函数,并 dispatch({type:'@@redux/INIT'}) 来初始化 currentState;
+
+
+bindActionCreators(actionCreators, dispatch)
+bindActionCreators 返回一个闭包函数,可通过闭包函数发起 dispatch,代码参考如下:
+function bindActionCreator(actionCreator, dispatch) {
+  return (...args) => dispatch(actionCreator(...args))
+}
+若 actionCreators 为函数,则返回值为函数,若 actionCreators 为对象,对象的键对应的值必须是函数,遍历对象,通过 bindActionCreator 将值进行包装,然后返回新的对象;
+
+
+combineReducers(reducers)
+combineReducers 用来合并多个 reducer 成为一个总的 reducers,每一个 reducer 控制 currentState 对象对应的属性值;
+reducers 为对象,键对应的值必须是函数(被合并的单个 reducer),该对象的键和 reducer 运行的结果组成新的对象被合并进 currentState;
+reducer 运行参数:reducer(previousStateForKey, action);
+previousStateForKey=currentState[key];previousStateForKey 是 currentState 对应的键的值,也就是上一次 reducer 运行返回的状态;
+
+
+
+
+
+
+
+
+
+
+
+
 
 react-redux
 redux-thunk
