@@ -1,0 +1,34 @@
+redux-thunk    2.2.0
+
+
+/*
+源代码很短,所以直接贴出来
+thunk 需要作为中间件数组中的第一个
+在 redux 的 store.dispatch 中,currentState 是即时生成的
+若碰到异步请求,则不能直接 dispatch
+所以 thunk 去获取 dispatch 函数,这个 dispatch 函数是在 applyMiddleware 中封装之后的函数
+将 dispatch 作为 action 函数的回调参数,当回调 dispatch 的时候,才开启真正的 dispatch 的过程,
+会再一次调用该函数,然后 next 串联下去 
+*/
+exports.__esModule = true;
+function createThunkMiddleware(extraArgument) {
+  return function (_ref) {
+	//_ref 对象为 redux.applyMiddleware 当中封装后的对象
+    var dispatch = _ref.dispatch,
+        getState = _ref.getState;
+    return function (next) {
+      return function (action) {
+        if (typeof action === 'function') {
+          return action(dispatch, getState, extraArgument);
+        }
+
+        return next(action);
+      };
+    };
+  };
+}
+
+var thunk = createThunkMiddleware();
+thunk.withExtraArgument = createThunkMiddleware;
+
+exports['default'] = thunk;
