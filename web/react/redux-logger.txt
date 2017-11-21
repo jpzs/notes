@@ -1,0 +1,77 @@
+redux-logger   3.0.6
+
+记录所有 Redux action 和下一次 state 的日志
+
+使用方式:
+import thunk from 'redux-thunk'
+import { createStore, applyMiddleware } from 'redux'
+import { createLogger } from 'redux-logger'
+const middleware = [thunk];
+//options 为 createLogger 的配置
+middleware.push(createLogger(options));
+const store = createStore(
+  reducer,
+  applyMiddleware(...middleware)
+)
+
+redux-logger 输出对象:
+export { defaults, createLogger, defaultLogger as logger };
+export default defaultLogger;
+
+defaults 为 logger 默认配置
+{
+  level: 'log',//属于 logger 即 console 下面的函数,打印日志使用
+  logger: console,//console的API,若 logger 配置为 undefined,则 redux-logger 功能不开启,直接跳过;
+  logErrors: true,//是否捕获在接下来的中间件执行中发生的错误,记录并抛出
+  collapsed: undefined,
+  predicate: undefined,//判断是否开启logger,若 predicate 为函数并且predicate(getState, action)返回值为false,则跳过 redux-logger
+  duration: false,//是否打印持续时间,指在 redux-logger 发起 next(action) 执行完所花费的时间
+  timestamp: true,//是否打印在 redux-logger 发起 next(action)的时间,该时间经过转化
+  stateTransformer: state => state,//获取 state 以后进行转换
+  actionTransformer: action => action,//打印日志前转换action
+  errorTransformer: error => error,//当发生异常时,在打印日志前转换error
+  colors: {
+    title: () => 'inherit',
+    prevState: () => '#9E9E9E',
+    action: () => '#03A9F4',
+    nextState: () => '#4CAF50',
+    error: () => '#F20404',
+  },
+  diff: false,//是否开启对比日志,对 action 操作前后 state 变化的比较
+  diffPredicate: undefined
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

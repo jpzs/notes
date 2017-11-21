@@ -31,7 +31,7 @@ applyMiddleware(...middlewares)
 middlewares 参数是函数中间件组成的数组,就是说 applyMiddleware 函数可以顺序传多个函数中间件作为参数如 applyMiddleware(a,b,c,d...);
 applyMiddleware 函数的作用是在 dispatch 的时候调用中间件,作为 createStore 函数中的 enhancer 参数,可以对 createStore 进行包装,实际上对 createStore 函数返回的 dispatch 对象进行包装
 如 var store = createStore(reducer,applyMiddleware(...middleware));
-这个时候,store.dispatch 已经是中间件层层闭包后的函数,调用 dispatch 的时候,实际上是在调用第一个中间件,在中间件当中调用 next(action),实际上等于调用下一个中间件,
+这个时候,store.dispatch 已经是中间件层层闭包后的函数,调用 dispatch 的时候,实际上是在调用第一个中间件,在中间件当中调用 next(action),实际上等于调用执行下一个中间件,
 在最后一个中间件中的 next 函数就是原来的 dispatch;
 
 
@@ -42,8 +42,4 @@ applyMiddleware 函数的作用是在 dispatch 的时候调用中间件,作为 c
 
 
 
-react-redux
-redux-thunk
-redux-logger
-redux-undo  让你的reducers变得可以重做
 exceed
