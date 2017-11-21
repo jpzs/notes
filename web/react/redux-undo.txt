@@ -4,9 +4,20 @@ import undoable from 'redux-undo'
 
 redux-undo 实现了撤销/重做功能;
 使用 undoable 对 reducer 函数进行封装,如
-const store = createStore(undoable(reducer))
+const store = createStore( undoable(reducer,config) )
 undoable 创建一个函数代替原来的 reducer,对 reducer 返回结果进行处理,返回 {future,history,past,present};
 present 表示当前数据,past 表示过去用来做后退功能,future 表示将来也就是重做时用的,history 记录每一次操作后的数据;
+部分实用的配置说明:
+config:{
+  initTypes:['@@redux/INIT', '@@INIT'],多个值用数组,单个值可用字符串,用来初始化state去除前进回退记录,当action.type存在于initTypes中时,可清除past和future
+  limit: false, // 保存到历史的数量
+  filter: () => true, 　//若函数返回false,则该action不保存记录
+  undoType: ActionTypes.UNDO, //可替换 undo 的action.type
+  redoType: ActionTypes.REDO, // 可替换 redo 的action.type
+  jumpToPastType: ActionTypes.JUMP_TO_PAST, // 可替换 jumpToPast 的action.type
+  jumpToFutureType: ActionTypes.JUMP_TO_FUTURE, // 可替换 jumpToFuture 的action.type
+  debug: false, // 当debug设置为ture时,可输出日志
+}
 
 import { ActionCreators } from 'redux-undo'
 
