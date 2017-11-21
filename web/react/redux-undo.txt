@@ -1,1 +1,30 @@
 redux-undo   0.6.1
+
+import undoable from 'redux-undo'
+
+redux-undo 实现了撤销/重做功能;
+使用 undoable 对 reducer 函数进行封装,如
+const store = createStore(undoable(reducer))
+undoable 创建一个函数代替原来的 reducer,对 reducer 返回结果进行处理,返回 {future,history,past,present};
+present 表示当前数据,past 表示过去用来做后退功能,future 表示将来也就是重做时用的,history 记录每一次操作后的数据;
+
+import { ActionCreators } from 'redux-undo'
+
+ActionCreators 是 undo 内部的 action 函数对象,可以生成 action, {undo,redo,jumpToFuture,jumpToPast},如
+var ActionCreators = {
+  undo: function undo() {
+    return { type: ActionTypes.UNDO };
+  },
+  redo: function redo() {
+    return { type: ActionTypes.REDO };
+  },
+  jumpToFuture: function jumpToFuture(index) {
+    return { type: ActionTypes.JUMP_TO_FUTURE, index: index };
+  },
+  jumpToPast: function jumpToPast(index) {
+    return { type: ActionTypes.JUMP_TO_PAST, index: index };
+  }
+};
+undo 表示撤销一级,redo 表示前进一级,
+jumpToFuture 跳转到指定的 future,参数 index 表示前进级数,index=0为前进一级,
+jumpToPast 跳转到指定的 past,参数 index 表示后退级数,index=0为后退一级
