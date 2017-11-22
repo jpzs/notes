@@ -17,7 +17,7 @@ bindActionCreators 返回一个闭包函数,可通过闭包函数发起 dispatch
 function bindActionCreator(actionCreator, dispatch) {
   return (...args) => dispatch(actionCreator(...args))
 }
-若 actionCreators 为函数,则返回值为函数,若 actionCreators 为对象,对象的键对应的值必须是函数,遍历对象,通过 bindActionCreator 将值进行包装,然后返回新的对象;
+若 actionCreators 为函数,则返回值为函数,若 actionCreators 为对象,遍历对象,对象的键对应的值不为函数的会被过滤,其余会通过 bindActionCreator 将值进行包装,然后返回新的对象;
 
 
 combineReducers(reducers)
