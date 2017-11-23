@@ -50,7 +50,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   }
 })
 
-若 mapDispatchToProps 为对象,则对象的键对应的值不为函数的会被过滤,其余的会被当作 Action creator ，返回的 Action 会由 Redux 自动发出,如
+若 mapDispatchToProps 为对象,用redux 的 bindActionCreator 进行绑定 dispatch,如
 const mapDispatchToProps = {
   onClick: (filter) => {
     type: 'SET_VISIBILITY_FILTER',

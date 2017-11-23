@@ -1,7 +1,7 @@
 redux  3.7.2
 import {createStore,bindActionCreators,combineReducers,applyMiddleware} from 'redux';
 
-createStore(reducer, preloadedState, enhancer)
+createStore(reducer, [preloadedState], enhancer)
 reducer 用来接收 action 进行处理并返回数据,preloadedState 是预设状态,enhancer 可以包装 createStore,参考:enhancer(createStore)(reducer, preloadedState),一般情况下仅需求 reducer;
 仅使用 reducer 和 enhancer 的情况下,preloadedState 参数可忽略,如 createStore(reducer, enhancer);
 createStore 函数返回对象包括{dispatch,subscribe,getState,replaceReducer};
@@ -17,7 +17,7 @@ bindActionCreators 返回一个闭包函数,可通过闭包函数发起 dispatch
 function bindActionCreator(actionCreator, dispatch) {
   return (...args) => dispatch(actionCreator(...args))
 }
-若 actionCreators 为函数,则返回值为函数,若 actionCreators 为对象,遍历对象,对象的键对应的值不为函数的会被过滤,其余会通过 bindActionCreator 将值进行包装,然后返回新的对象;
+若 actionCreator 为函数,则返回值为函数,若 actionCreator 为对象,遍历对象,对象的键对应的值不为函数的会被过滤,其余会通过 bindActionCreator 将值进行包装,然后返回新的对象;
 
 
 combineReducers(reducers)

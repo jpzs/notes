@@ -62,3 +62,40 @@ _maskContext: function (context) {
     }
     return maskedContext;
 }
+
+
+
+
+
+
+
+
+
+性能检测工具:
+react-addons-perf
+import Perf from 'react-addons-perf'
+
+Perf.start()
+Perf.stop()
+start/stop这两个方法，放在你要测试性能的代码的两端，如果操作消耗一些时间，但是这些时间是微不足道的，会被直接忽略(所以在小型的项目中，这个工具可能并不会有结果)。
+
+var measure=Perf.getLastMeasurements()
+在stop函数调用，停止测试后，你需要用Perf.getLastMeasurements()去得到测试的结果。measure 为测试数据结果的结构体;
+
+Perf.printInclusive(measure)
+这个函数会打印测试的总时间以及一些相关信息，如果没有什么参数的话，函数会打印出所有的测试记录，它同时会在控制台直接以table的格式良好的进行显示(在console中用console.table()函数可以进行table格式的显示)
+
+Perf.printExclusive(measure)
+Exclusive单词的意思是独立，跟printInclusive有点类似，但是不会包括装载组件的时间：处理props，componentWillMount和componentDidMount这些东西的时间都不会算进去。
+
+Perf.printWasted(measure)
+这是Perf性能分析工具最有用的部分，”Wasted“浪费的时间：时间浪费在组件上但是又没有用于去更新组件。
+
+
+
+
+
+
+
+
+
