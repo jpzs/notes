@@ -5,3 +5,29 @@ letter-spacing Ìí¼Ó×ÖÄ¸Ö®¼äµÄ¿Õ°×,¹Ê×îºóÒ»¸ö×Ö½«±»ÅÅ³ıÔÚÍâ,ÔÊĞíÎª¸ºÖµ,¿É¼Ì³Ğ,³õÊ
 word-spacing Ìí¼ÓÃ¿¸öµ¥´ÊÖ®¼äµÄ¿Õ°×,¶ÔÖĞÎÄÎŞĞ§,¿É¼Ì³Ğ,³õÊ¼ÖµnormalµÈÓÚ¾ø¶Ô³¤¶È0.
 text-transform ´óĞ¡Ğ´×ª»» ...
 direction ¿É¼Ì³Ğ,¾ö¶¨ÎÄ±¾Á÷·½Ïò´Ó×óµ½ÓÒ»ò´ÓÓÒµ½×ó
+
+
+
+
+
+
+
+IE6Ë«±ß¾àbug: ¿éÊôĞÔ±êÇ©Ìí¼ÓÁË¸¡¶¯floatÖ®ºó£¬ÈôÔÚ¸¡¶¯·½ÏòÉÏÒ²ÓĞmarginÖµ£¬ÔòmarginÖµ»á¼Ó±¶¡£ÆäÊµÕâÖÖÎÊÌâÖ÷Òª¾ÍÊÇ»á°ÑÄ³Ğ©ÔªËØ¼·µ½ÁËµÚ¶şĞĞ
+¸øfloatÔªËØÌí¼Ódisplay£ºinline »ò  hack´¦Àí _margin-left:5px;
+
+ÓĞĞ©ä¯ÀÀÆ÷½âÎöimg±êÇ©Ò²ÓĞ²»Í¬£¬imgÊÇĞĞÄÚµÄ£¬Ò»°ã¶¼»á½ô½Ó×ÅÅÅ·Å£¬µ«ÊÇÔÚÓĞĞ©Çé¿öÏÂ»¹ÊÇ»áÍ»È»³öÏÖ¸ö¼ä¾à£¬½â¾ö°ì·¨ÊÇ¸øËüÀ´¸ö¸¡¶¯  float 
+
+±êÇ©ÊôĞÔmin-heightÊÇ²»¼æÈİµÄ£¬ËùÒÔÊ¹ÓÃµÄÊ±ºòÒ²ÒªÉÔÎ¢¸Ä¸Ä¡£ÕâÑù°É£º
+.box{min-height:100px;height:auto !important; height:100px;}
+
+chromeÏÂÄ¬ÈÏ»á½«Ğ¡ÓÚ12pxµÄÎÄ±¾Ç¿ÖÆ°´ÕÕ12pxÀ´½âÎö¡£½â¾ö°ì·¨ÊÇ¸øÆäÌí¼ÓÊôĞÔ£º
+-webkit-text-size-adjust:none;
+
+Ïû³ıul¡¢olµÈÁĞ±íµÄËõ½øÊ±£¬ÑùÊ½Ó¦Ğ´³É:list-style:none;margin:0px;padding:0px; ÆäÖĞmarginÊôĞÔ¶ÔIEÓĞĞ§£¬paddingÊôĞÔ¶ÔFireFoxÓĞĞ§
+
+CSS¿ØÖÆÍ¸Ã÷¶ÈÎÊÌâ£ºÒ»°ã¾ÍÖ±½Ó opacity: 0.6 ; IE¾Í filter: alpha(opacity=60)
+µ«ÔÚIE6ÏÂÓÖÓĞÎÊÌâ£¬ËùÒÔÓÖµÃÅª³É filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=60);
+
+ÓĞĞ©Ê±ºòÍ¼Æ¬ÏÂ·½»á³öÏÖÒ»Ìõ¼äÏ¶£¬Í¨³£»á³öÏÖÔÚFFºÍIE6ÏÂÃæ£¬
+Ò»°ã¸øimgÌí¼Óvertical-alignÊôĞÔ¼´¿É£¬±ÈÈçtop middle
+img{verticle-align:center;}
