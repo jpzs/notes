@@ -1,1 +1,82 @@
+http协议构建于TCP/IP协议之上,默认端口号80,无连接无状态;
+HTTP定义了与服务器交互的不同方法，最基本的方法有4种，分别是GET，POST，PUT，DELETE。URL全称是资源描述符,应着对这个资源的查，增，改，删4个操作。
+最常见广泛被支持的只有GET，POST两种，PUT，DELETE使用方式跟POST差不多。还有一种方法 HEAD,跟 GET 差不多，但是对比 GET 少了消息主体,HEAD 一般用来
+测试链接的有效性，获取最后改动时间，检测是否更新。
+
+GET用于信息获取，而且应该是安全的 和 幂等的。所谓安全的意味着该操作用于获取信息而非修改信息。幂等的意味着对同一URL的多个请求应该返回同样的结果。
+GET 将参赛放在请求行当中
+ GET /books/?sex=man&name=Professional HTTP/1.1
+ Host: www.example.com
+ User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)
+ Gecko/20050225 Firefox/1.0.1
+ Connection: Keep-Alive
+
+POST表示可能修改变服务器上的资源的请求。POST将参赛放在请求主体当中。
+ POST / HTTP/1.1
+ Host: www.example.com
+ User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)
+ Gecko/20050225 Firefox/1.0.1
+ Content-Type: application/x-www-form-urlencoded
+ Content-Length: 40
+ Connection: Keep-Alive
+
+ sex=man&name=Professional  
+
+ 
+注意:
+GET 可提交的数据量受到URL长度的限制，HTTP 协议规范没有对 URL 长度进行限制。这个限制是特定的浏览器及服务器对它的限制
+理论上讲，POST 是没有大小限制的，HTTP 协议规范也没有进行大小限制，出于安全考虑，服务器软件在实现时会做一定限制
+参考上面的报文示例，可以发现 GET 和 POST 数据内容是一模一样的，只是位置不同，一个在URL里，一个在 HTTP 包的包体里
+
+Content-Type  消息主体使用的编码方式
 if-Modified-Since 把浏览器端缓存页面的最后修改时间一起发到服务器去;设置值为0可以解决get缓存问题
+Connection:Keep-Alive 持当前的TCP连接，避免了重新建立连接。
+
+
+常见的状态码有如下几种：
+
+100（continue）继续发送
+200 OK 客户端请求成功
+301 Moved Permanently 请求永久重定向
+302 Moved Temporarily 请求临时重定向
+304 Not Modified 文件未修改，可以直接使用缓存的文件。
+400 Bad Request 由于客户端请求有语法错误，不能被服务器所理解。
+401 Unauthorized 请求未经授权。这个状态代码必须和WWW-Authenticate报头域一起使用
+403 Forbidden 服务器收到请求，但是拒绝提供服务。服务器通常会在响应正文中给出不提供服务的原因
+404 Not Found 请求的资源不存在，例如，输入了错误的URL
+500 Internal Server Error 服务器发生不可预期的错误，导致无法完成客户端的请求。
+503 Service Unavailable 服务器当前不能够处理客户端的请求，在一段时间之后，服务器可能会恢复正常。
+
+
+HTTP/1.0 :第一个在通信中指定的版本号，至今被广泛采用，特别是在代理服务器中。
+HTTP/1.1 :当前版本号，持久连接被默认采用，并能很好地配合代理服务器工作。还支持以管道方式在同时发送多个请求，以便降低线路负载，提高传输速度。
+
+HTTP/1.1与HTTP/1.0的区别：
+
+1.persistent connection（持久连接）
+
+HTTP/1.0中，每对请求/ 响应都使用一个新的连接。
+
+HTTP/1.1则支持持久连接（默认）。除非加入 "Connection: close" 才关闭
+
+2.Host域
+
+HTTP/1.1在请求消息头多一个Host域；HTTP/1.0  则没有这个域，建立TCP连接的时候已经指定了IP地址，而且默认一个IP地址只对应一个主机名，IP地址上只有一个host。
+
+3.带宽优化
+
+HTTP/1.1中在请求消息中引入了range头域，它允许只请求资源的某个部分。在响应消息中Content-Range头域声明了返回的这部分对象 的偏移值和长度。如果服务器相应地返回了对象所请求范围的内容，则响应码为206（Partial Content），它可以防止Cache将响应误以为是完整的一个对象。请求消息中如果包含比较大的实体内容，但不确定服务器是否能够接收该请求（如是否有权限），此时若贸然发出带实体的请求，如果被拒绝也会浪费带宽。 HTTP/1.1加入了一个新的状态码100（Continue）。客户端事先发送一个只带头域的请求，如果服务器因为权限拒绝了请求，就回送响应码 401（Unauthorized）；如果服务器接收此请求就回送响应码100，客户端就可以继续发送带实体的完整请求了。注意，HTTP/1.0的客户 端不支持100响应码。
+
+    节省带宽资源的一个非常有效的做法就是压缩要传送的数据。Content-Encoding是对消息进行端到端（end-to-end）的编码，它可能是 资源在服务器上保存的固有格式（如jpeg图片格式）；在请求消息中加入Accept-Encoding头域，它可以告诉服务器客户端能够解码的编码方 式。而Transfer-Encoding是逐段式（hop-by-hop）的编码，如Chunked编码。在请求消息中加入TE头    域用来告诉服务器能够接收的transfer-coding方式。
+
+4.请求方法和状态码
+
+HTTP1.1增加了OPTIONS, PUT, DELETE, TRACE, CONNECT这些Request方法
+
+HTTP/1.0中只定义了16个状态响应码，对错误或警告的提示不够具体。HTTP/1.1引入了一个Warning头域，增加对错误或警告信息的描述。
+
+在HTTP/1.1中新增了24个状态响应码，如409（Conflict）表示请求的资源与资源的当前状态发生冲突；410（Gone）表示服务器上的某个资源被永久性的删除。
+
+5.内容协商
+
+为 了满足互联网使用不同母语和字符集的用户，一些网络资源有不同的语言版本（如中文版、英文版）。HTTP/1.0定义了内容协商 （content negotiation）的概念，也就是说客户端可以告诉服务器自己可以接收以何种语言（或字符集）表示的资源。例如如果服务器不能明确 客户端需要何种类型的资源，会返回300（Multiple Choices），并包含一个列表，用来声明该资源的不同可用版本，然后客户端在请求消息中包含Accept-Language和Accept- Charset头域指定需要的版本。
