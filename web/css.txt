@@ -31,3 +31,6 @@ CSS控制透明度问题：一般就直接 opacity: 0.6 ; IE就 filter: alpha(opacity=60)
 有些时候图片下方会出现一条间隙，通常会出现在FF和IE6下面，
 一般给img添加vertical-align属性即可，比如top middle
 img{verticle-align:center;}
+
+
+table 中给th,td 添加属性 display:inline-block; ,可使thead,tbody的宽度等于table的宽度
