@@ -1,0 +1,161 @@
+初始化git版本库之后会生成一个隐藏的文件 .git ，可以将该文件理解为git的版本库 repository，而我们自己建立的项目文件夹即工作区 working directory。在.git 文件夹里面还有很多文件，
+其中有一个index 文件,就是暂存区也可以叫做 stage。git还为我们自动生成了一个分支master以及指向该分支的指针head
+Git有三个工作区域，分别为：工作目录（Working Directory）、暂存区（Stage或Index）以及版本库（Repository或Git Directory）
+本地代码为工作目录，git add 操作将文件添加至暂存区，commit 操作将文件添加至当前分支的版本库
+
+git clone <版本库的网址> <本地目录名>	将存储库克隆到新目录中,本地目录名默认为当前目录
+git remote	查看远程库名称
+git remote -v	显示出详细的url地址名和对应的别名
+git branch   列出本地已经存在的分支,带*号的为当前分支
+git branch -a	查看所有分支列表，包括本地和远程
+git branch -vv	查看本地分支对应的远程分支
+
+git branch [name] 创建分支
+git checkout [name] 切换到 name 分支
+git checkout -b [name]	相当于执行前面两条命令,如果分支存在则只切换分支，若不存在则创建并切换到 name 分支
+
+git merge [name]	合并指定分支name到当前分支
+git branch -d [name]	删除name分支,如果在分支中有一些未merge的提交，那么会删除分支失败，此时可以使用 git branch -D [name]：强制删除分支
+
+git status	显示工作目录和暂存区的状态,显示发生变化的文件名和路径,绿色的为已 add 至暂存区,红色的为未添加至暂存区
+git diff	对比工作目录和暂存区的差别,只有已经提交到暂存区的文件修改的时候才可以看出明显区别
+git diff --cached	比较的是暂存区和版本库的差别
+git diff HEAD	可以查看工作区和版本库的差别
+git add .	把工作目录的所有变化提交到暂存区，包括文件内容修改以及新文件，但不包括被删除的文件
+git add -u	将所有变化提交到暂存区。包括文件内容修改以及被删除的文件，但不包括新文件。（git add --update的缩写）
+git add -A	是上面两个功能的合集，包括文件内容修改，新文件和被删除的文件（git add --all的缩写）
+git commit -m ''	将暂存区的文件提交至版本库
+git commit -am ''	将被跟踪的文件变化提交至版本库（新增未add过的文件不会被跟踪）
+git commit --allow-empty-message 可以不写备注提交
+git commit --amend	修改某个branch上最顶端的commit,相当于用新的commit替换了原来的commit
+git push <远程主机名> <本地分支名>:<远程分支名>	将本地分支的更新，推送到远程主机,远程主机名默认使用git remote结果，本地分支名默认使用git branch结果
+git push origin	表示将当前分支推送到origin主机的对应分支,如果当前分支只有一个追踪分支，那么主机名都可以省略。
+如果当前分支与多个主机存在追踪关系，那么这个时候-u选项会指定一个默认主机,如 git push -u origin master
+不带任何参数的git push，默认只推送当前分支，这叫做simple方式。此外，还有一种matching方式，会推送所有有对应的远程分支的本地分支。Git 2.0版本之前，默认采用matching方法，现在改为默认采用simple方式。
+如果要修改这个设置，可以采用git config命令。git config --global push.default matching	或者	git config --global push.default simple
+还有一种情况，就是不管是否存在对应的远程分支，将本地的所有分支都推送到远程主机，这时需要使用–all选项。git push --all origin
+git pull <远程主机名> <远程分支名>:<本地分支名>	取回远程主机某个分支的更新，再与本地的指定分支合并,本地分支名为空时，默认为当前分支。如果当前分支与远程分支存在追踪关系，git pull就可以省略远程分支名。
+如果当前分支只有一个追踪分支，连远程主机名都可以省略。在某些场合，Git会自动在本地分支与远程分支之间，建立一种追踪关系(tracking)。比如，在git clone的时候，所有本地分支默认与远程主机的同名分支，建立追踪关系，
+也就是说，本地的master分支自动”追踪”origin/master分支。Git也允许手动建立追踪关系,git branch --set-upstream master origin/next ，该命令指定master分支追踪origin/next分支。
+git pull 相当于 git fetch 和 git merge,git fetch 相当于是从远程获取最新版本到本地，不会自动合并,在实际使用中，git fetch更安全一些，因为在merge前，我们可以查看更新情况，然后再决定是否合并
+git fetch <远程主机名>	将某个远程主机的更新,git fetch	更新所有分支,git fetch <远程主机名> <分支名>	比如，取回origin主机的master分支,git fetch origin master
+git log
+不带参数：
+如果不带任何参数，它会列出所有历史记录，最近的排在最上方，显示提交对象的哈希值，作者、提交日期、和提交说明
+如果记录过多，则按Page Up、Page Down、↓、↑来控制显示
+按q退出历史记录列表。
+
+显示参数：
+-p：按补丁显示每个更新间的差异，比下一条- -stat命令信息更全
+--stat：显示每次更新的修改文件的统计信息，每个提交都列出了修改过的文件，以及其中添加和移除的行数，并在最后列出所有增减行数小计
+--shortstat：只显示--stat中最后的行数添加修改删除统计
+--name-only：尽在已修改的提交信息后显示文件清单
+--name-status：显示新增、修改和删除的文件清单
+--abbrev-commit：仅显示SHA-1的前几个字符，而非所有的40个字符
+--relative-date：使用较短的相对时间显示（例如："two weeks ago"）
+--graph：显示ASCII图形表示的分支合并历史
+
+筛选参数：
+按数量
+-n：显示前n条log
+按日期
+--after=
+比如git log --after="2014-7-1”，显示2014年7月1号之后的commit(包含7月1号)
+后边的日期还可以用相对时间表示，比如"1 week ago"和”yesterday"，比如git log --after="yesterday"
+这里的格式可以是什么？
+--before=
+同上
+另外这两条命令可以同时使用表示时间段，比如git log --after="2014-7-1" --before="2014-7-4"
+另外--since --until和 --after --before是一个意思，都可以用
+按作者
+--author=
+比如git log --author=“John"，显示John贡献的commit
+注意：作者名不需要精确匹配，只需要包含就行了
+而且：可以使用正则表达式，比如git log --author="John\|Mary”，搜索Marry和John贡献的commit
+而且：这个--author不仅包含名还包含email, 所以你可以用这个搜索email
+按commit描述
+--grep=
+比如：git log --grep="JRA-224"
+而且：可以传入-i用来忽略大小写
+注意：如果想同时使用--grep和--author，必须在附加一个--all-match参数
+按文件
+- -（空格）或［没有］
+有时你可能只对某个文件的修改感兴趣, 你只想查看跟某个文件相关的历史信息, 你只需要插入你感兴趣文件的路径［对，是路径，所以经常是不太好用］就可以了
+比如：git log -- foo.py bar.py ，只返回和foo.py或bar.py相关的commit
+这里的--是告诉Git后面的参数是文件路径而不是branch的名字. 如果后面的文件路径不会和某个branch产生混淆, 你可以省略- -，比如git log foo.py 
+另外，后边的路径还支持正则，比如：git log  *install.md 是，指定项目路径下的所有以install.md结尾的文件的提交历史
+另外，文件名应该放到参数的最后位置，通常在前面加上--并用空格隔开表示是文件
+另外，git log file/ 查看file文件夹下所有文件的提交记录
+按分支
+- -
+--branchName branchName为任意一个分支名字，查看某个分支上的提交记录
+需要放到参数中的最后位置处
+如果分支名与文件名相同，系统会提示错 误，可通过--选项来指定给定的参数是分支名还是文件名
+比如：在当前分支中有一个名为v1的文件，同时还存在一个名为v1的分支
+git log v1 -- 此时的v1代表的是分支名字（－－后边是空的）
+git log -- v1 此时的v1代表的是名为v1的文件
+git log v1 －－ v1 代表v1分支下的v1文件
+按内容
+-S"<string>"、-G"<string>"
+有时你想搜索和新增或删除某行代码相关的commit. 可以使用这条命令
+假设你想知道Hello, World!这句话是什么时候加入到项目里去的，可以用：git log -S"Hello,World!"
+另外：如果你想使用正则表达式去匹配而不是字符串, 那么你可以使用-G代替-S.
+这是一个非常有用的debug工具, 使用他你可以定位所有跟某行代码相关的commit. 甚至可以查看某行是什么时候被copy的, 什么时候移到另外一个文件中去的
+注：-S后没有"="，与查询内容之间也没有空格符
+按范围
+git log <since>..<until>
+这个命令可以查看某个范围的commit
+这个命令非常有用当你使用branch做为range参数的时候. 能很方便的显示2个branch之间的不同
+比如：git log master..feature，master..feature这个range包含了在feature有而在master没有的所有commit，同样，如果是feature..master包含所有master有但是feature没有的commit
+另外，如果是三个点，表示或的意思：git log master...test 查询master或test分支中的提交记录
+过滤掉merge commit
+--no-merges
+默认情况下git log会输出merge commit.  你可以通过--no-merges标记来过滤掉merge commit，git log --no-merges
+另外，如果你只对merge commit感兴趣可以使用—merges，git log --merges
+按标签tag
+git log v1.0
+直接这样是查询标签之前的commit
+加两个点git log v1.0.. 查询从v1.0以后的提交历史记录(不包含v1.0)
+按commit
+git log commit ：查询commit之前的记录，包含commit
+git log commit1 commit2：查询commit1与commit2之间的记录，包括commit1和commit2
+git log commit1..commit2：同上，但是不包括commit1
+其中，commit可以是提交哈希值的简写模式，也可以使用HEAD代替
+HEAD代表最后一次提交，HEAD^为最后一个提交的父提交，等同于HEAD～1
+HEAD～2代表倒数第二次提交
+
+当你checkout分支的时候，git做了这么三件事情
+将HEAD指向那个分支的最后一次commit
+将HEAD指向的commit里所有文件的snapshot替换掉Index区域里原来的内容
+将Index区域里的内容填充到Working Directory里
+所以你可以发现，HEAD、Index、Working Directory这个时候里的内容都是一模一样的。
+注意：一般会误解为，Index中的内容是空的，只有git add后才会有东西。实际上不是，Index里一直是有东西的。
+
+git回滚到任意版本
+git log -3
+commit 4dc08bb8996a6ee02f
+Author: Mark <xxx@xx.com>
+Date:   Wed Sep 7 08:08:53 2016 +0800
+
+    xxxxx
+
+commit 9cac9ba76574da2167
+Author: xxx<xx@qq.com>
+Date:   Tue Sep 6 22:18:59 2016 +0800
+
+    improved the requst
+
+commit e377f60e28c8b84158
+Author: xxx<xxx@qq.com>
+Date:   Tue Sep 6 14:42:44 2016 +0800
+git reset --hard e377f60e28c8b84158
+
+
+git log -p filename
+查看文件的每一个详细的历史修改，如果没有-p选项，只显示提交记录，不显示文件内容修改，git log -p -3 filename 显示最近的3次提交。
+
+git log --pretty=oneline filename
+每一行显示一个提交，先显示哈希码，再显示提交说明。
+
+git blame filename
+查看文件的每一行是哪个提交最后修改的。
