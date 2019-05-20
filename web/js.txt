@@ -1,95 +1,95 @@
-dom�¼���:
-ͬʱ֧�������¼�ģ�ͣ��������¼���ð�����¼���DOM�¼�ģ������ص������ǣ��ı��ڵ�Ҳ�����¼�(��IE�в���)������dom�ڵ���¼��Ժ����������˳���������¼�����׶�,��deocment���ڵ�һֱ���£�ͨ���ӽڵ㣬ֱ�����ﴥ���¼���Ŀ��ڵ�Ϊֹ��Ȼ����ð�ݽ׶Σ��Ӵ����¼���Ŀ��ڵ㿪ʼ��һ·����ͨ�����ڵ㣬ֱ��document���ڵ�Ϊֹ����;�ᴥ�������ڵ��Ӧ���¼�������׶δ����������¼���ð�ݽ׶δ���ð�����¼�(������ڵĻ�)�����¼�ʱ�ֲ���׶δ�����ð�ݽ׶δ������֡�����׶�����ð�ݽ׶Σ����������¼�����ð�����¼�ִ�У����ǵ����������¼�����ͬһ���ڵ���ʱ�����հ�ʱ��˳���Ȱ󶨵���ִ�С�Ϊ�˱����¼����󴥷����dom�ڵ�󶨵��¼�����Ҫ��ֹ�¼�������ִ�С���chrome��firefox�п���ʹ��stopPropagation������e.stopPropagation();����e��ʾ�¼�����event��
-if(e && e.stopPropagation){e.stopPropagation(); }else{e.cancelBubble=true;};�����������stopPropagation����ʱ�͵���stopPropagation�����������ʹ�ú���ķ�����e.cancelBubble=true��ie��Ч��
-����֧�ֵ�ie�ĸ��汾δ�����ԡ�
+﻿dom事件流:
+同时支持两种事件模型：捕获型事件和冒泡型事件。DOM事件模型最独特的性质是，文本节点也触发事件(在IE中不会)。当给dom节点绑定事件以后，浏览器触发顺序，首先是事件捕获阶段,从deocment根节点一直向下，通过子节点，直到到达触发事件的目标节点为止，然后是冒泡阶段，从触发事件的目标节点开始，一路向上通过父节点，直到document根节点为止，沿途会触发经过节点对应的事件，捕获阶段触发捕获型事件，冒泡阶段触发冒泡型事件(如果存在的话)。绑定事件时分捕获阶段触发和冒泡阶段触发两种。捕获阶段早于冒泡阶段，即捕获型事件早于冒泡型事件执行，但是当两种类型事件绑定在同一个节点上时，按照绑定时的顺序，先绑定的先执行。为了避免事件流误触发别的dom节点绑定的事件，需要阻止事件流继续执行。在chrome和firefox中可以使用stopPropagation方法。e.stopPropagation();当中e表示事件对象event。
+if(e && e.stopPropagation){e.stopPropagation(); }else{e.cancelBubble=true;};当浏览器存在stopPropagation方法时就调用stopPropagation方法，否则就使用后面的方法。e.cancelBubble=true对ie有效，
+不过支持到ie哪个版本未经测试。
 http://nuysoft.iteye.com/blog/1190189
 
-event.stopPropagation()�÷�����
-�÷�����ֹͣ�¼��Ĵ�������ֹ�������ɵ����� Document �ڵ㡣���¼��������κν׶ζ����Ե�������ע�⣬�÷���������ֹͬһ���ڵ��ϵ������¼���������á�
+event.stopPropagation()用法介绍
+该方法将停止事件的传播，阻止它被分派到其他 Document 节点。在事件传播的任何阶段都可以调用它。注意，该方法不能阻止同一个节点上的其他事件句柄被调用。
 
-event.preventDefault()�÷�����
-�÷�����֪ͨ Web �������Ҫִ�����¼�������Ĭ�϶�����������������Ķ����������磬��� type ������ "submit"�����¼�����������׶ο��Ե���������¼������ͨ�����ø÷�����������ֹ�ύ������ע�⣬��� Event ����� cancelable ������ fasle����ô��û��Ĭ�϶��������߲�����ֹĬ�϶���������������������ø÷�����û�����á�
+event.preventDefault()用法介绍
+该方法将通知 Web 浏览器不要执行与事件关联的默认动作（如果存在这样的动作）。例如，如果 type 属性是 "submit"，在事件传播的任意阶段可以调用任意的事件句柄，通过调用该方法，可以阻止提交表单。注意，如果 Event 对象的 cancelable 属性是 fasle，那么就没有默认动作，或者不能阻止默认动作。无论哪种情况，调用该方法都没有作用。
 
 addeventlistener
 element.addEventListener(event,function,useCapture)
-����element��Ҫ�󶨺����Ķ���
-event���¼����ƣ�Ҫע�����"onclick"Ҫ��Ϊ"click","onblur"Ҫ��Ϊ"blur",Ҳ����˵�¼�����Ҫ��"on"��
-function��Ȼ���ǰ󶨵ĺ����ˣ���ס��Ҫ�����š�
-���һ������useCapture�Ǹ�����ֵ��Ĭ��Ϊfalse,��ʾ�¼���ð�ݽ׶δ���,true��ʾ�¼��ڲ���׶δ�����
-�÷�������ie9.0����.
+其中element是要绑定函数的对象。
+event是事件名称，要注意的是"onclick"要改为"click","onblur"要改为"blur",也就是说事件名不要带"on"。
+function当然就是绑定的函数了，记住不要跟括号。
+最后一个参数useCapture是个布尔值，默认为false,表示事件在冒泡阶段触发,true表示事件在捕获阶段触发。
+该方法兼容ie9.0以上.
 
 attachevent
 element.attachEvent (event,function)
-event���¼����ƣ����ִ�'on'��functionͬ�ϣ�֧��ie��Opera������ attachEvent �� addEventListener ������������ window ����������һЩ�ĵ�����Ҳ֧�ָ÷�����
-ע�⣺�ڵͰ汾ie��attachEvent ��ָ�ɵĶ�����̵�ִ��˳��������ģ������⼸������֮�䲻Ҫ��˳������----���δ���Թ�
+event是事件名称，名字带'on'。function同上，支持ie和Opera。另外 attachEvent 和 addEventListener 不仅仅适用于 window 对象，其他的一些文档对象也支持该方法。
+注意：在低版本ie上attachEvent 所指派的多个过程的执行顺序是随机的，所以这几个过程之间不要有顺序依赖----这点未测试过
 
 
-document.getComputedStyle(dom,α��); ��ȡԪ��������ʽ;dom.currentStyle;ie6-8��ȡ������ʽ
-document.activeElement  ��õ�ǰ�������ڶ���
+document.getComputedStyle(dom,伪类); 获取元素所有样式;dom.currentStyle;ie6-8获取所有样式
+document.activeElement  获得当前焦点所在对象
 
 object
 hasownproperty
-new Object().hasOwnProperty('name');�������ж�һ�������Ƿ�����������Ƶ����Ի���󡣲�����Ҫע����ǣ��˷����޷����ö����ԭ�������Ƿ���и����ԣ������Ա����Ƕ�������һ����Ա��
-new Object()��ʾĳһ������name��ʾ�����ֶ����ơ�
+new Object().hasOwnProperty('name');是用来判断一个对象是否有你给出名称的属性或对象。不过需要注意的是，此方法无法检查该对象的原型链中是否具有该属性，该属性必须是对象本身的一个成员，
+new Object()表示某一个对象，name表示检测的字段名称。
 
 isprototypeof
-isPrototypeOf��object1.isPrototypeOf(object2)������object1Ϊĳһ�������ԭ�͡�object2Ϊ��һ�����󣬽�Ҫ���object2ԭ���������object2��ԭ�����а���object1����ôJavaScript��isPrototypeOf������������ true�����ӣ� var a = new Rectangle();function Rectangle() {};var result=Rectangle.prototype.isPrototypeOf(a);//result=true
+isPrototypeOf。object1.isPrototypeOf(object2)。其中object1为某一个对象的原型。object2为另一个对象，将要检查object2原型链。如果object2的原型链中包含object1，那么JavaScript中isPrototypeOf函数方法返回 true。例子： var a = new Rectangle();function Rectangle() {};var result=Rectangle.prototype.isPrototypeOf(a);//result=true
 
 
 function
 call
-function.call(thisObj,arg1,arg2,argN)��function��ʾĳ����������һ��������thisObj,�������������������滻function�ڲ���������ִ�л���������thisObj�е�this����ֵ��function�е�
-this�������û���ṩthisObj������ôthisObjĬ��Ϊwindow���ӵڶ�������arg1��ʼ���ֱ��ʾ����function�Ĳ�����
+function.call(thisObj,arg1,arg2,argN)。function表示某个方法，第一个参数是thisObj,用这个对象的上下文来替换function内部的上下文执行环境，即将thisObj中的this对象赋值到function中的
+this对象，如果没有提供thisObj对象，那么thisObj默认为window。从第二个参数arg1开始，分别表示传入function的参数。
 
 apply
-function.apply(thisObj,args)��functionͬ�ϣ�thisObjͬ�ϣ�args��ʾ���飬������Ϊ��������function��args-->arguments����
+function.apply(thisObj,args)。function同上，thisObj同上，args表示数组，它将作为参数传给function（args-->arguments）。
 
 bind
-function a(){};var b=a.bind(thisObj,arg1,arg2,argN);b();bind��������call,���ǵ���bind����ֱ��ִ�к���,���Ƿ��ظı������ĺ�ĺ���,ie6,7,8��֧�֡�
+function a(){};var b=a.bind(thisObj,arg1,arg2,argN);b();bind方法类似call,但是调用bind并不直接执行函数,而是返回改变上下文后的函数,ie6,7,8不支持。
 
 splice
-var result=arrayObject.splice(index,howmany,element1,.....,elementX)��index������Ԫ�ص��±꣬�涨�Ӻδ���ʼ����/ɾ��Ԫ�ء�howmany���涨Ӧ��ɾ������Ԫ�ء����������֣� ��������"0"���ַ�����0��elementX:���������ӵ�Ԫ�أ����������ɸ����Զ��ŷָ�������ֵresult:�����arrayObject��ɾ����Ԫ�أ��򷵻ص����ɱ�ɾ����Ԫ����ɵ����顣
+var result=arrayObject.splice(index,howmany,element1,.....,elementX)。index：数组元素的下标，规定从何处开始添加/删除元素。howmany：规定应该删除多少元素。必须是数字， 但可以是"0"即字符串的0。elementX:向数组添加的元素，可以是若干个，以逗号分隔。返回值result:如果从arrayObject中删除了元素，则返回的是由被删除的元素组成的数组。
 
 
 array
 slice
-var result=stringObject.slice(start,end)��startҪ��ȡ��Ƭ�ϵ���ʼ�±꣬����Ǹ�������ò����涨���Ǵ��ַ�����β����ʼ�����λ�á�Ҳ����˵��-1 ָ�ַ��������һ���ַ���-2 ָ�����ڶ����ַ���
-end ������Ҫ��ȡ��Ƭ�εĽ�β���±ꡣ��δָ���˲�������Ҫ��ȡ���Ӵ����� start ��ԭ�ַ�����β���ַ���������ò����Ǹ�������ô���涨���Ǵ��ַ�����β����ʼ�����λ�á�
-����ֵresult:һ���µ��ַ����������ַ��� stringObject �� start ��ʼ������ start���� end ������������ end��Ϊֹ�������ַ����÷�������ı�ԭ����String.slice()��Array.slice()��ͬ��
+var result=stringObject.slice(start,end)。start要抽取的片断的起始下标，如果是负数，则该参数规定的是从字符串的尾部开始算起的位置。也就是说，-1 指字符串的最后一个字符，-2 指倒数第二个字符。
+end 紧接着要抽取的片段的结尾的下标。若未指定此参数，则要提取的子串包括 start 到原字符串结尾的字符串。如果该参数是负数，那么它规定的是从字符串的尾部开始算起的位置。
+返回值result:一个新的字符串。包括字符串 stringObject 从 start 开始（包括 start）到 end 结束（不包括 end）为止的所有字符。该方法不会改变原对象。String.slice()与Array.slice()相同。
 
-sort arrayObject.sort(sortby) arrayObjectΪ�������,sortby:��ѡ,�涨����˳��.�����Ǻ������ȽϺ���Ӧ�þ����������� a �� b,������ֵ����0,���������������е�λ��,���򲻸ı�λ��.sort������safari������д������⣬���뺯������ʱ������������
+sort arrayObject.sort(sortby) arrayObject为数组对象,sortby:可选,规定排序顺序.必须是函数。比较函数应该具有两个参数 a 和 b,当返回值大于0,调换参数在数组中的位置,否则不改变位置.sort函数在safari浏览器中存在问题，传入函数参数时不会正常排序。
 
 
 
 string
-charAt string.charAt(index) �����ַ���ָ��λ�õ��ַ�,string��ʾ�ַ���,indexΪ���֣�����Ϊ������ת��Ϊ����,��index����λ�ò����ڻ�indexΪ����,�򷵻�'';
+charAt string.charAt(index) 返回字符串指定位置的字符,string表示字符串,index为数字，若不为数字则转化为数字,若index索引位置不存在或index为负数,则返回'';
 
-__proto__ �� prototype ���
-ÿ�����������ص�ԭ������__proto__,����ͨ��Object.getPrototypeOf ��ȡ,__proto__ָ�򴴽��ö���ĺ�����ԭ��prototype,prototype������ʾԭ��,ֻ��function�������
+__proto__ 与 prototype 差别
+每个对象都有隐藏的原型属性__proto__,可以通过Object.getPrototypeOf 获取,__proto__指向创建该对象的函数的原型prototype,prototype代表显示原型,只有function对象才有
 
-�жϺ����Ƿ�Ϊϵͳ�Դ������ķ���,��Promise.toString().slice(-17)==='{ [native code] }'
+判断函数是否为系统自带函数的方法,如Promise.toString().slice(-17)==='{ [native code] }'
 
-typeof ����������,typeof(variable),�ɼ��������:boolean,string,number,object,function,undefined.
-instanceof ������� [] instanceof Array,���ǿ�iframe��ⲻ��
-Object.prototype.toString.call(variable) �ɼ��ȫ����
+typeof 检测变量类型,typeof(variable),可检测类型有:boolean,string,number,object,function,undefined.
+instanceof 检测数组 [] instanceof Array,但是跨iframe检测不行
+Object.prototype.toString.call(variable) 可检测全类型
 
 
-�������ʽ
-�������ʽ \1 ��ʾƥ��ǰ��()���������
+正则表达式
+正则表达式 \1 表示匹配前面()捕获的内容
 
-����
-jsonp����   
-����script���Կ��������,ͨ��script��ǩ����һ��js�ļ������js�ļ�����ɹ����ִ��������url������ָ���ĺ��������һ��������Ҫ��json������Ϊ��������,��Ҫ��������
+跨域
+jsonp跨域   
+利用script可以跨域的特性,通过script标签引入一个js文件，这个js文件载入成功后会执行我们在url参数中指定的函数，并且会把我们需要的json数据作为参数传入,需要服务端配合
 
-ͨ���޸�document.domain��������  
-�����������,��ͬ��Ŀ��֮�䲻�ܽ���js����,��ҳ������ҳ��document.domain�������ͬ������(������ʾ������),document.domain�������������Ƶģ�����ֻ�ܰ�document.domain���ó����������һ���ĸ��������������ͬ
+通过修改document.domain来跨子域  
+浏览器有限制,不同域的框架之间不能进行js交互,将页面与子页面document.domain都设成相同的域名(必须显示的设置),document.domain的设置是有限制的，我们只能把document.domain设置成自身或更高一级的父域，且主域必须相同
 
-ʹ��window.name�����п���
-�������и�����������һ������(window)������������,������������е�ҳ�涼�ǹ���һ��window.name��,ÿ��ҳ���window.name���ж�д��Ȩ�ޣ�window.name�ǳ־ô���һ�����������������ҳ���еģ�����������ҳ����������������,ע�⣬window.name��ֵֻ�����ַ�������ʽ������ַ����Ĵ�С���������2M�������������һ������������ȡ���ڲ�ͬ�������,ͨ������iframe�����������ݴ��ڵ�ҳ��,�������ݵ�window.name��,�ٽ�src�Ļ�ԭҳ��,�ƹ�ͬԴ����.
+使用window.name来进行跨域
+该属性有个特征：即在一个窗口(window)的生命周期内,窗口载入的所有的页面都是共享一个window.name的,每个页面对window.name都有读写的权限，window.name是持久存在一个窗口载入过的所有页面中的，并不会因新页面的载入而进行重置,注意，window.name的值只能是字符串的形式，这个字符串的大小最大能允许2M左右甚至更大的一个容量，具体取决于不同的浏览器,通过隐藏iframe加载需求数据存在的页面,保存数据到window.name中,再将src改回原页面,绕过同源策略.
 
-ʹ��HTML5����������window.postMessage����������������
-֧��ie 8+,window.postMessage(data,origin);
-data:html5�淶���ᵽ�ò���������JavaScript������������ͻ�ɸ��ƵĶ���Ȼ����������������������������������������ֻ�ܴ����ַ�������
-origin:�ַ���������ָ��Ŀ�괰�ڵ�Դ,�����˽��ն���,Э��+����+�˿ں�[+URL]��URL�ᱻ���ԣ����Կ��Բ�д,Ҳ���Խ���������Ϊ"*"���������Դ��ݸ����ⴰ�ڣ����Ҫָ���͵�ǰ����ͬԴ�Ļ�����Ϊ"/"��
-��Ҫ������Ϣ��window���󣬿���ͨ������������message�¼�����ȡ����������Ϣ����Ϣ���ݴ����ڸ��¼������data������
-��Щ������ĵͰ汾������FireFox4.0������֧��window.onmessage=function(){},���ʹ���¼��󶨵�д��
+使用HTML5中新引进的window.postMessage方法来跨域传送数据
+支持ie 8+,window.postMessage(data,origin);
+data:html5规范中提到该参数可以是JavaScript的任意基本类型或可复制的对象，然而并不是所有浏览器都做到了这点儿，部分浏览器只能处理字符串参数
+origin:字符串参数，指明目标窗口的源,限制了接收对象,协议+主机+端口号[+URL]，URL会被忽略，所以可以不写,也可以建参数设置为"*"，这样可以传递给任意窗口，如果要指定和当前窗口同源的话设置为"/"。
+需要接收消息的window对象，可是通过监听自身的message事件来获取传过来的消息，消息内容储存在该事件对象的data属性中
+有些浏览器的低版本（比如FireFox4.0）并不支持window.onmessage=function(){},最好使用事件绑定的写法

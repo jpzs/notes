@@ -34,3 +34,5 @@ img{verticle-align:center;}
 
 
 table 中给th,td 添加属性 display:inline-block; ,可使thead,tbody的宽度等于table的宽度
+
+图片本身没有白边，但在图片连接处出现了白边缝隙,因为img是内联块状元素，默认之间是存在缝隙的。要去除缝隙有两种方法，1.设置font-size属性为0，2.设置img为block元素

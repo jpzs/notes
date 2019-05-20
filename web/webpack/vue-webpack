@@ -1,0 +1,47 @@
+"devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "css-loader": "^0.28.7",
+    "file-loader": "^1.1.6",
+    "node-sass": "^4.7.2",
+    "postcss-loader": "^2.0.9",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.19.1",
+    "url-loader": "^0.6.2",
+    "vue-loader": "^13.6.2",
+    "vue-template-compiler": "^2.5.13",
+    "webpack": "^3.10.0",
+    "webpack-merge": "^4.1.1"
+  },
+
+module.exports = {
+    entry: './index.js',
+    output: {
+        filename: '[name].js',
+        path: __dirname + '/dist',
+        publicPath: 'dist/'
+    },
+    module: {
+        rules: [{
+                test: /\.vue$/,
+                use: 'vue-loader'
+            },
+            {
+                test: /\.(jpg|png)$/,
+                use: "url-loader?limit=8192&name=images/[hash:8].[name].[ext]"
+            },
+            {
+                test: /\.js$/,
+                loader: 'babel-loader'
+            }
+        ]
+    },
+    resolve: {
+        extensions: [".vue", ".js"]
+    },
+    plugins: []
+}

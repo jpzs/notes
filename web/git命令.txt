@@ -6,6 +6,7 @@ Git有三个工作区域，分别为：工作目录（Working Directory）、暂
 git clone <版本库的网址> <本地目录名>	将存储库克隆到新目录中,本地目录名默认为当前目录
 git remote	查看远程库名称
 git remote -v	显示出详细的url地址名和对应的别名
+git remote add origin git@github.com:michaelliao/learngit.git	关联到远程仓库
 git branch   列出本地已经存在的分支,带*号的为当前分支
 git branch -a	查看所有分支列表，包括本地和远程
 git branch -vv	查看本地分支对应的远程分支
