@@ -1,0 +1,2 @@
+问题记录
+版本3.23.6,发现问题Modal.confirm在配置LocaleProvider之后,偶现英文按钮,经研究,发现当页面上有组件发生卸载时,会调用LocaleProvider组件的componentWillUnmount生命周期,LocaleProvider组件的卸载生命周期中会重置语言设置,将runtimeLocale改为默认的语言包locale/default,貌似在19年9月份的版本中,该问题已修复
